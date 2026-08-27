@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "sprinklr-presales",
+  "description": "Presales tooling for Sprinklr Solutions Architects and Solution Consultants",
+  "owner": {
+    "name": "Ari Fetahaj"
+  },
+  "plugins": [
+    {
+      "name": "sprinklr-rfp",
+      "description": "Answer customer RFPs, tenders and security questionnaires from Sprinklr's internal Atlassian knowledge, with every claim grounded in a retrieved source.",
+      "author": {
+        "name": "Ari Fetahaj"
+      },
+      "category": "productivity",
+      "source": "./plugins/sprinklr-rfp"
+    }
+  ]
+}
