@@ -1,6 +1,14 @@
 ---
 name: atlassian-retrieval
-description: Retrieve knowledge from Sprinklr's internal Atlassian — Confluence pages, Jira and JSM work items, Bitbucket PRs, Loom videos, Goals, Projects, Compass, Assets, Trello — using the Teamwork Graph CLI (`twg`). Trigger whenever a question can only be answered from internal Atlassian content: "what does our doc say about X", "look up X internally", "find the Confluence page on X", "check Jira for X", "who owns X", "catch me up on X", "is there a page about X", or when the user pastes a Confluence/Jira URL and wants it read and understood. Also use for retrieval-backed research where the source is unclear but likely internal. STRICTLY READ-ONLY — never edits, creates, comments on, transitions, or deletes anything.
+description: >
+  Retrieve knowledge from Sprinklr's internal Atlassian — Confluence pages, Jira and JSM work
+  items, Bitbucket PRs, Loom videos, Goals, Projects, Compass, Assets, Trello — using the
+  Teamwork Graph CLI (`twg`). Trigger whenever a question can only be answered from internal
+  Atlassian content: "what does our doc say about X", "look up X internally", "find the
+  Confluence page on X", "check Jira for X", "who owns X", "catch me up on X", "is there a page
+  about X", or when the user pastes a Confluence/Jira URL and wants it read and understood. Also
+  use for retrieval-backed research where the source is unclear but likely internal. STRICTLY
+  READ-ONLY — never edits, creates, comments on, transitions, or deletes anything.
 ---
 
 # Atlassian Retrieval via `twg`
