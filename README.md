@@ -1,8 +1,18 @@
 # sprinklr-presales
 
 A Claude Code plugin marketplace for Sprinklr presales. One plugin today:
-**`sprinklr-rfp`** — answering customer RFPs, tenders and security questionnaires from
-Sprinklr's internal Atlassian knowledge.
+**`sprinklr-solutions`** (Beta) — answering customer RFPs, tenders and security
+questionnaires from Sprinklr's internal Atlassian knowledge.
+
+**Before installing**, install and authenticate the Teamwork Graph CLI. Both skills read
+through it, and without it they return nothing:
+
+```bash
+curl -fsSL https://teamwork-graph.atlassian.com/cli/install | bash
+twg whoami          # must print your name and account id
+```
+
+Run that in your own terminal — the installer ends in a consent prompt.
 
 ## Install
 
@@ -13,11 +23,11 @@ claude plugin marketplace add <git-url-or-local-path>
 ```
 
 ```bash
-claude plugin install sprinklr-rfp@sprinklr-presales
+claude plugin install sprinklr-solutions@sprinklr-presales
 ```
 
 From inside an interactive Claude Code session the same two steps are
-`/plugin marketplace add …` and `/plugin install sprinklr-rfp@sprinklr-presales`.
+`/plugin marketplace add …` and `/plugin install sprinklr-solutions@sprinklr-presales`.
 
 Confirm both skills registered — they will appear namespaced as
 `sprinklr-rfp:rfp-response` and `sprinklr-rfp:atlassian-retrieval`.
