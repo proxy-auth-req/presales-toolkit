@@ -1,9 +1,0 @@
-{
-  "name": "sprinklr-rfp",
-  "description": "Answer customer RFPs, tenders and security questionnaires from Sprinklr's internal Atlassian knowledge. Orchestrates subagents over the question set, grounds every claim in a retrieved source, and merges answers back into the customer's own files with a full audit trail.",
-  "version": "0.1.0",
-  "author": {
-    "name": "Ari Fetahaj"
-  },
-  "keywords": ["rfp", "tender", "questionnaire", "presales", "sprinklr", "atlassian", "confluence"]
-}

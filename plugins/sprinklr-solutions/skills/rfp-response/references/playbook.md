@@ -265,3 +265,150 @@ every one of them retrieved fresh.
 Present corrections for sign-off rather than applying them silently, and expect to
 re-verify at least one: on the run above, a verifier's own correction was itself wrong
 and was withdrawn on a second pass.
+
+---
+
+## 16. Volunteered detail is where contradictions come from
+
+The single most consistent finding of a full run: nearly every problem traced back to
+something the customer never asked for.
+
+Real examples, one bid:
+
+- The criterion asked for *"ISO/IEC 27001 Zertifikat"* and *"Scope-Statement"*. Nothing
+  about auditors. We named ours — external firm and internal firm — and the internal
+  firm turned out to be the one signing the SOC report we cited as independent
+  assurance. An independence question, invented by us, on a criterion that asked for
+  two documents.
+- No criterion mentioned PCI-DSS. We stated a PCI scope anyway, and it disagreed with
+  the scope stated in our own published brochure. Two company documents visibly
+  conflicting in one bid, over a topic nobody raised.
+- We described the certification scope by department. The certificate describes it by
+  product and function. We attached a document that did not say what we said it said.
+- One word. The answer claimed every location where data is stored, *processed* or
+  replicated lies in-region. Our own published transfer whitepaper defines remote
+  support access as processing and names two countries outside the region. Contradicted
+  by our own position paper, on a mandatory criterion.
+
+**Rule.** The requirement text plus its evidence list define the answer boundary.
+Test every sentence: *if I delete this, does it change whether a reviewer judges the
+criterion met?* If no, delete it.
+
+This cuts unrequested detail, not requested detail. Where the customer enumerates —
+"list every interface with protocol, port, direction and authentication method" —
+give the full list. The enumeration is the answer.
+
+Specific classes to cut on sight unless the evidence list asks: auditor and assessor
+names; certification or attestation scopes the customer did not raise; internal
+organisational structure; named third-party tooling; version numbers; configured
+values; step-by-step process narrations where the criterion asks only whether the
+control exists.
+
+**Never state who performs internal audit.** No tender has ever asked, and it invites
+an independence challenge for nothing.
+
+---
+
+## 17. Promise availability, not delivery
+
+*"wird dem Angebot beigelegt"* is a delivery obligation someone must honour.
+*"kann auf Anforderung bereitgestellt werden"* answers the same evidence question and
+obligates nobody.
+
+Default to availability. Promise attachment **only** for documents physically present
+in the submission folder at the moment you write the sentence.
+
+On one run this cut thirteen delivery promises to the four documents actually shipping.
+The rest had accumulated over drafting — annexes, schematics, interface overviews,
+extracts — none of which existed, several of which no one had been asked to produce.
+
+Track every promised artefact as its own list. At submission, each one is either in the
+folder or the sentence comes out.
+
+---
+
+## 18. Reuse vetted artefacts — but read them against our answers first
+
+Bespoke prose we wrote is a liability. An approved, legally vetted document is not. So
+where an official artefact covers a requirement well enough that a reasonable reviewer
+would accept it, cite the artefact and delete the prose — even if it misses detail. Set
+the bar low deliberately; when torn, reuse.
+
+**Two exceptions, and they are absolute:**
+
+- Never where our text carries a deliberate disclosure, limitation or gap admission the
+  artefact lacks. Losing an honest disclosure is the worst outcome available.
+- Never where the artefact says something **weaker, narrower or different** from what
+  the customer requires. That hands the evaluator an approved company document that
+  undercuts our own answer.
+
+The second exception is not hypothetical. In one mapping pass the company's own manual
+stated a password minimum below the customer's requirement, listed four identity
+providers and omitted the customer's own, and enumerated two log-delivery methods
+without the one a passing verdict depended on.
+
+**Before attaching any document, read it against the answers.** Of seven candidate
+artefacts on one bid, three would have damaged the bid: a position paper arguing
+primary responsibility sits with the vendor, a paper stating the vendor supports no
+critical functions, and a transfer whitepaper naming an out-of-region hosting default
+and explicitly disclaiming localised environments. All three were, on their titles,
+obvious things to attach.
+
+Expect the yield from reuse to be low. A corporate security manual is governance-level
+— what standards exist, who owns them — while tenders ask for product mechanics. Six of
+ninety-eight criteria was the real number on a full attempt. Compliance attestations
+replaced nothing at all; their value was entirely evidentiary.
+
+That is still worth doing, because the mapping pass surfaces the contradictions in §16
+whether or not it shortens anything.
+
+---
+
+## 19. Do not name unconfirmed specifics
+
+Name the commitment, not the detail that is still moving. "Operation in a region inside
+the EU, final region assignment fixed contractually" survives; the city name, the build
+status and the internal environment identifier do not.
+
+Anything described as planned, in build, or pending confirmation will be read as
+committed. Anything internal — environment names, capacity constraints, the internal
+environment register — is operational fact, not customer content, and never appears.
+
+---
+
+## 20. Finished work is not a backlog
+
+Per-answer caveats are the trail behind a finished answer. They are not tasks.
+
+On one run the state file carried 172 open notes against a complete, merged, validated
+response. Presented as a list, that reads as unfinished work and buries the deliverable.
+Sorted honestly: 90 were "someone could confirm this eventually" where the answer text
+does not change either way, 48 were context, 14 were red items whose gap the answer
+already states — leaving **14** that would actually change a cell.
+
+Report that number. Then the rest, once, as an appendix nobody has to action.
+
+Related: when the reviewer has no time to chase people, do not produce a list of people
+to chase. Mark the weak answers red so review lands on them. A confirmation the user
+cannot get is not an action item; it is a risk flag.
+
+---
+
+## 21. Spreadsheet round-trips damage the customer's file
+
+`openpyxl` warns that it cannot preserve extended (x14) data validation, then silently
+drops it on save. The customer's dropdowns disappear. Cell values are unaffected, so
+nothing looks wrong — and tender templates routinely instruct bidders not to alter the
+structure.
+
+After every merge, restore the validation by splicing the original `<extLst>` block
+back into the saved worksheet XML. Two traps in that repair:
+
+- The namespace declarations (`x14`, `xm`, and **`xr`**, which appears only as an
+  attribute prefix) are dropped along with the block. Re-inserting elements without
+  them produces `unbound prefix` and a file neither Excel nor a parser will open.
+- **Verifying by grepping the XML for the right strings is not verification.** A file
+  can contain every expected element and still be unopenable. Open it with a parser.
+
+More generally: check what a round-trip costs before running one. Conditional
+formatting survived; data validation did not.

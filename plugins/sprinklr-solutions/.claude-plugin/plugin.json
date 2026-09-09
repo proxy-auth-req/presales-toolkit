@@ -1,0 +1,13 @@
+{
+  "name": "sprinklr-solutions",
+  "version": "0.2.0-beta",
+  "description": "Sprinklr Solutions (Beta) — presales tooling for Solutions Architects and Solution Consultants. Answer customer RFPs, tenders and security questionnaires from Sprinklr's internal Atlassian knowledge: orchestrates subagents over the question set, grounds every claim in a retrieved source, and merges answers back into the customer's own files with a full audit trail and an HTML status cockpit.",
+  "author": {
+    "name": "Ari Fetahaj"
+  },
+  "keywords": [
+    "sprinklr", "presales", "solutions-architect", "solution-consultant",
+    "rfp", "tender", "questionnaire", "kriterienkatalog", "anforderungskatalog",
+    "atlassian", "confluence", "jira", "retrieval"
+  ]
+}

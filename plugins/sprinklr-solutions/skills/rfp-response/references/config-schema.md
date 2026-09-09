@@ -164,3 +164,59 @@ different document sections, tell the agent the per-category mapping in its prom
 - `vendor_questions.selected` — ids fixing the final curated set; until set, the
   provisional ranking applies.
 - `vendor_questions.already_submitted` — questions already sent, so counts stay honest.
+
+## `cockpit`
+
+Configures the HTML status page. Every label is written in the customer's language; the
+script's English defaults exist only so it runs unconfigured. See
+`cockpit-design.md` for the reasoning behind the layout.
+
+```json
+"cockpit": {
+  "filename": "RFP-Cockpit.html",
+  "title": "EVN Bid Cockpit",
+  "ko_criterion_type": "Eignungskriterium",
+  "owner_prefix": "AE:",
+  "status": {"label": "Eingereicht", "on": "09.09.2026"},
+  "labels": {
+    "answered": "Positionen",
+    "ko_short": "Eignung nicht erfüllt",
+    "evidence_missing": "Nachweise fehlen",
+    "open_owner": "Offen beim AE",
+    "h_eligibility": "Eignung",
+    "h_progress": "Bearbeitungsstand je Katalog",
+    "h_evidence": "Nachweislage",
+    "h_decisions": "Was noch entschieden wird",
+    "ko_lead": "{n} Eignungskriterien nicht erfüllt.",
+    "ko_body": "Eignungskriterien sind Ausschlusskriterien — sie werden nicht bepunktet, sondern bestanden oder nicht.",
+    "scored_note": "Zusätzlich {n} nicht erfüllte Zuschlagskriterien. Diese kosten Punkte, nicht die Eignung.",
+    "legend_green": "tragfähig", "legend_amber": "mit Vorbehalt", "legend_red": "kritisch",
+    "ev_total": "{n} geforderte Artefakte",
+    "ev_yes": "liegen vor", "ev_nda": "unter NDA",
+    "ev_third": "von Dritten", "ev_missing": "fehlen",
+    "file_prefix": "Datei",
+    "foot": "Generiert aus _work/answers/ · {d} · Interne Übersicht, nicht Bestandteil des Angebots"
+  },
+  "panels": [
+    {"title": "AE / Bid Management", "value": "18",
+     "note": "Umfangs- und Angebotsentscheidungen. Nicht vom Solution Architect zu entscheiden."}
+  ]
+}
+```
+
+`ko_criterion_type` names the **mandatory** criterion type exactly as the customer
+writes it. Failing one threatens eligibility; failing a scored criterion only costs
+points, and the cockpit keeps the two apart. Leave it unset where the tender draws no
+such distinction — everything then lands in a single list.
+
+`owner_prefix` matches the prefix drafting agents put on routed open questions
+(`AE:` by default), so the cockpit can count what is parked with someone else.
+
+`panels` are free text — the three or four things genuinely open at the end of this
+bid. Do not force a fixed set.
+
+Give every source a **`short`** (`"06"`, `"04"`) alongside its `label`: the cockpit tags
+each failing row with it, so a reader sees which catalogue an item came from without
+consulting a legend.
+
+`{n}` and `{d}` are the only placeholders — item count and today's date.

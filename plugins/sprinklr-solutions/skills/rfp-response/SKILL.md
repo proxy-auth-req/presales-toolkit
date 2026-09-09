@@ -24,6 +24,13 @@ cross-batch consistency, merging and reporting.
 **Read `references/playbook.md` before starting.** It carries the failure modes this
 skill exists to prevent, each one learned by making the mistake.
 
+`references/sprinklr-trust-documents.md` lists the vetted compliance artefacts available
+from the Trust Portal, what each one answers, and which ones will damage a bid if
+attached unread. Ask the user to pull the relevant ones early.
+
+`references/cockpit-design.md` carries the design formula for the HTML status page —
+read it before configuring the cockpit, not after.
+
 ## Who we are
 
 The vendor is **Sprinklr** — a unified customer experience management (CXM) platform.
@@ -44,6 +51,21 @@ or Legal. Never write a commercial commitment into a customer file, and never pu
 commercial decision to the user as though it were theirs — route it by naming the
 owner. "This document is provided as evidence" is fine. "This will be agreed as part
 of the offer" is not.
+
+## Language — the skill and its output are not the same language
+
+**This skill, its references, its scripts and their comments are written in English.**
+That is deliberate and does not change.
+
+**Everything it produces is written in the customer's language** — answers, the
+companion document, the cockpit, the vendor questions — or in whatever language the
+user names if they ask for something else. Where a source workbook is bilingual,
+establish in Phase 1 which column is authoritative and follow it.
+
+That split has one operational consequence worth stating: every string a generated
+artefact renders is a **label**, configured per engagement, never a literal in a script.
+The scripts ship English defaults so they run out of the box; override them in
+`_work/config.json`. A German page with English column headings is a defect.
 
 ## Non-negotiable architecture
 
@@ -304,6 +326,20 @@ The merge aborts on a cell collision and refuses to write any column listed as
 `never_write` in the config (commercial fields, effort estimates, customer-only
 columns).
 
+**Every xlsx merge must be followed by a validation repair.** `openpyxl` silently
+strips the customer's dropdowns (extended x14 data validation) on save — values are
+fine, the validation is gone, and tender templates routinely forbid altering the
+structure:
+
+```bash
+"$P" "$RFP_SKILL/scripts/restore_validation.py" "<file>.xlsx" "<pristine original>.xlsx" --apply
+```
+
+Pass the earliest backup as the pristine original. Then **open every workbook with a
+parser** to confirm it still loads — checking that the XML contains the right strings
+is not verification, and a bad splice produces a file no parser and no Excel will open.
+See playbook §21.
+
 ## Phase 8 — Deliverables
 
 ```bash
@@ -313,17 +349,77 @@ P="$RFP_DIR/_work/.venv/bin/python"
 "$P" "$RFP_SKILL/scripts/build_companion_doc.py"     # narrative doc, if the format needs one
 "$P" "$RFP_SKILL/scripts/build_evidence_register.py" # internal gap list with owners
 "$P" "$RFP_SKILL/scripts/build_vendor_questions.py"  # ranked, capped, cut line marked
+"$P" "$RFP_SKILL/scripts/build_cockpit.py"           # RFP-Cockpit.html — status at a glance
 ```
 
-## Phase 9 — Report
+The cockpit is the page the user actually opens: one self-contained HTML file, readable
+in a browser and publishable unchanged as an Artifact. It answers "where does this stand
+and what could sink it" in about five seconds, and it is a status view — never the audit
+trail, which stays in `STATE.md`.
+
+**Read `references/cockpit-design.md` before configuring it.** The one thing it must get
+right is that mandatory criteria (pass/fail, eligibility) and scored criteria (points)
+are different risks and are never summed into one "failing" number. Set
+`cockpit.ko_criterion_type` to the mandatory type in the customer's own vocabulary, and
+write every label in `cockpit.labels` in the customer's language.
+
+## Phase 9 — Condense before shipping
+
+Length is a risk, not a virtue. A first pass typically lands near 2.700 characters per
+section, and almost all of the excess is detail the customer never asked for — which is
+where contradictions come from (playbook §16).
+
+Run a condensation pass over the whole customer-facing document, batched like drafting.
+The rule handed to each agent:
+
+> The requirement text plus its evidence list define the answer. For every sentence:
+> *if I delete this, does it change whether a reviewer judges the criterion met?*
+> If no, delete it.
+
+Cut on sight, unless the evidence list demands it: auditor and assessor names;
+certifications and scopes the customer did not raise; internal organisational
+structure; named third-party tooling; version numbers; configured values the criterion
+does not specify; process narrations where the criterion asks only whether the control
+exists.
+
+**Protect, verbatim:** every failing criterion's gap statement, every deliberate
+disclosure or limitation, and anything the evidence list explicitly demands. Shorter,
+never vaguer — state the fact plainly and stop, rather than hedging it into mush. This
+pass only removes; it introduces nothing.
+
+Expect roughly a quarter off, not half. Criteria that enumerate ("list every interface
+with protocol, port, direction and authentication method") cannot be cut, and there are
+usually a dozen of them.
+
+Two rules that belong to this phase because they are the same instinct:
+
+- **Availability, not delivery.** Convert every *"will be attached"* to *"can be
+  provided on request"*, except for documents physically in the submission folder.
+  See playbook §17.
+- **Attribute the customer's words.** Where an evidence entry restates what the
+  customer demanded, mark it as *their* wording — quotation marks and italics — with
+  our response after a dash. It must never be ambiguous which half is theirs. Restore
+  their **exact** phrasing; condensation tends to paraphrase it, which quietly turns
+  their demand into our claim.
+
+## Phase 10 — Report
 
 Lead with what the answers reveal about the bid, not with process metrics. Failing
-mandatory criteria, missing evidence, contradictions between internal sources,
-claims that need a human before they ship, and promises made in customer text that
-nobody has committed to deliver.
+mandatory criteria, missing evidence, contradictions between company sources, claims
+that need a human before they ship, and promises made in customer text that nobody has
+committed to deliver.
 
 Group decisions by owner so the user can forward slices directly — and keep commercial
 items in the AE's pile, not the user's.
+
+**Distinguish the audit trail from work.** Per-answer caveats are not tasks. Report the
+count that would actually change a cell, and nothing else as an action (playbook §20).
+
+**When the user has no time to chase people, do not produce a list of people to chase.**
+Mark the weak answers red so review lands on them. A confirmation the user cannot get
+is a risk flag, not an action item.
+
+Be brief. The user is mid-bid.
 
 ## Vendor questions
 
@@ -338,3 +434,18 @@ Rank those first.
 Keep vendor questions strictly separate from internal open questions. Asking the
 customer something that reveals we do not understand our own product is the worst
 outcome available here.
+
+**Establish the question deadline in Phase 1, before anything else.** It usually closes
+well before submission and it is not in the requirement workbooks — it lives in the
+tender cover documents or the user's inbox. On one run the window had already closed,
+and twenty ranked questions, including the only lever on six failing mandatory criteria,
+were written for nothing.
+
+Budget is typically around twenty across all files. Rank on: can it turn a failure →
+stated impact → how bad the item is today → criterion type. Put criterion type **last**:
+only some source files carry one, and ranking on it earlier buries every question from
+the files that do not.
+
+Declining to ask is often correct, and agents should be told so explicitly. Good reasons:
+the customer's answer is predetermined; the question would volunteer a weakness they did
+not raise; a near-duplicate is already filed.

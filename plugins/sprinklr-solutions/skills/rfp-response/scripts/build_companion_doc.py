@@ -75,14 +75,27 @@ def main():
             title = (inv.get(gid, {}).get("extra") or {}).get("title") \
                 or inv.get(gid, {}).get("section_title") or gid
             out += [f"### {sub} {title}", ""]
-            if spec.get("show_verdict", True):
+            # The criterion id and verdict usually already live in the source
+            # workbook's own columns. Repeating them here is redundant, so this
+            # defaults off -- set show_verdict:true only if the format needs it.
+            if spec.get("show_verdict", False):
                 out += [f"*{spec.get('verdict_label', 'Kriterium')} {gid} — "
                         f"{item.get('verdict', 'open')}*", ""]
             out += [item.get("concept_text") or "_Not yet drafted._", ""]
             arts = item.get("evidence_customer") or []
             if arts:
                 out += [f"**{spec.get('evidence_label', 'Nachweise')}:**", ""]
-                out += [f"- {a}" for a in arts]
+                for a in arts:
+                    # The text before the first colon-SPACE is the customer's own
+                    # wording, copied from their evidence column. Render it as a
+                    # quotation so it reads as their demand, not our claim.
+                    # Split on ": " not ":" -- identifiers like "ISO/IEC 27001:2022"
+                    # carry a colon of their own and must not be cut there.
+                    if ": " in a[:150]:
+                        demand, rest = a.split(": ", 1)
+                        out.append(f"- *\u201e{demand.strip()}\u201c* \u2014 {rest.strip()}")
+                    else:
+                        out.append(f"- {a}")
                 out.append("")
             written += 1
 

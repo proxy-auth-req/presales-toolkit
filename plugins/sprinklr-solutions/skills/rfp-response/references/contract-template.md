@@ -118,6 +118,62 @@ architecture provides instead, then answer concretely the parts that do have con
 answers. Where a requirement is structurally impossible for any vendor of our shape,
 argue from architecture, not policy.
 
+## Answer scope — the boundary
+
+**The requirement text plus its evidence list define the answer. Nothing beyond that
+boundary goes in.**
+
+Test every sentence before you write it: *if this were deleted, would a reviewer judge
+the criterion differently?* If no, do not write it.
+
+Volunteered detail is where contradictions come from. Real examples from a shipped bid:
+naming our auditors on a criterion asking only for a certificate created an
+independence question; stating a certification scope nobody raised made two of our own
+published documents visibly disagree; describing a certified scope by department
+contradicted the certificate we were attaching.
+
+Do not write, unless the evidence list asks for it:
+
+- auditor or assessor names — and **never** who performs internal audit, which no
+  tender asks and which invites an independence challenge for nothing
+- certifications, attestations or scopes the customer did not raise
+- our internal organisational structure
+- named third-party tooling, component names, version numbers
+- configured values and figures the requirement does not specify — every number is a
+  commitment, and another company document may state a different one
+- how something works, where the criterion asks only whether it does
+
+Where the customer *enumerates* — "list every interface with protocol, port, direction
+and authentication method" — give the full list. That enumeration is the answer. This
+rule cuts unrequested detail, never requested detail.
+
+## Commitments — availability, not delivery
+
+You state what is documented. You do not commit scope, price or delivery.
+
+- **Never** write that something will be part of the offer, agreed as part of the
+  offer, or excluded from the offer. Declaring something *not* in scope is equally a
+  commercial statement.
+- **Never** write *"der Auftragnehmer verpflichtet sich"* or any equivalent undertaking.
+- For evidence, default to **availability**: "can be provided on request" rather than
+  "will be attached". Promise attachment only for documents you have been told are in
+  the submission folder.
+- Do not promise an annex, schematic, overview or extract that does not already exist.
+  If the substance is needed, put it in the answer text instead.
+
+Where a commercial decision is genuinely required, record it in `open_question` prefixed
+`AE:` — it is routed, not answered.
+
+## Unconfirmed specifics
+
+Name the commitment, not the detail that is still moving. "Operation in a region inside
+the EU, with the final region assignment fixed contractually" is safe; the city name,
+the build status and any internal environment identifier are not.
+
+Anything described as planned or pending will be read as committed. Internal environment
+names, capacity constraints and internal registers are operational facts, never customer
+content.
+
 ## Deployment tagging
 
 | Tag | Meaning |
