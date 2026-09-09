@@ -30,7 +30,7 @@ From inside an interactive Claude Code session the same two steps are
 `/plugin marketplace add …` and `/plugin install sprinklr-solutions@sprinklr-presales`.
 
 Confirm both skills registered — they will appear namespaced as
-`sprinklr-rfp:rfp-response` and `sprinklr-rfp:atlassian-retrieval`.
+`sprinklr-solutions:rfp-response` and `sprinklr-solutions:atlassian-retrieval`.
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ twg doctor
 
 `Connectivity: ok` against a resolved token means you are ready. Full setup, repair and
 headless instructions are in
-[`skills/atlassian-retrieval/references/INSTALL.md`](plugins/sprinklr-rfp/skills/atlassian-retrieval/references/INSTALL.md).
+[`skills/atlassian-retrieval/references/INSTALL.md`](plugins/sprinklr-solutions/skills/atlassian-retrieval/references/INSTALL.md).
 
 **Python 3** with `venv`. The RFP skill builds its own virtualenv inside the customer
 directory and installs `openpyxl` there; nothing is installed system-wide.
@@ -64,6 +64,6 @@ A hosted sandbox with no access to your `twg` install cannot do retrieval.
 
 ## Contributing
 
-Skills live in `plugins/sprinklr-rfp/skills/`. Bump `version` in
-`plugins/sprinklr-rfp/.claude-plugin/plugin.json` when you change one, so installs pick
+Skills live in `plugins/sprinklr-solutions/skills/`. Bump `version` in
+`plugins/sprinklr-solutions/.claude-plugin/plugin.json` when you change one, so installs pick
 the change up.
